@@ -1,13 +1,13 @@
 <html>
   <head>
-    <title></title>
+    <title>Adf.ly script</title>
     <meta content="">
-    <?php /*<script>
-var adfly_id = 'example';
-var adfly_advert = 'int';
-//var domains = ['*.testsite.com'];
-var exclude_domains = ['www.testsite.com','sharefiles4u.com','*.example.com','test.test.com'];
-</script> */ ?>
+    <script>
+    var adfly_id = 'example';
+    var adfly_advert = 'int';
+    //var domains = ['*.testsite.com'];
+    var exclude_domains = ['www.testsite.com','sharefiles4u.com','*.example.com','test.test.com'];
+    </script>
   </head>
   <body>
       <p>Wildcard domains: * can be used in the exclude_domains or domains ( *.example.com matches www.example.com, example.com, foo.bar.baz.example.com)
