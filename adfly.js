@@ -28,16 +28,18 @@
  *   @todo convert domains list to array
  *   @todo check if exclude is subset of domain and vice versa
  *   @todo remove method
+ *   @todo allow single replace (options.parent is <a>)
  */
-var Adfly = function(id, options){
-    var self
-
-    if (this === window){
+var Adfly = function (id, options) {
+    "use strict";
+    
+    console.log(this);
+    if (this == window) {
         self = this.Adfly;
-    }else{
+    } else {
         self = this;
     }
-
+    var self,
     /**
      * check whether domain is on the domains list
      *
@@ -45,22 +47,23 @@ var Adfly = function(id, options){
      * @param domains
      * @return boolean
      */
-    var has_domain = function(domain, domains){
-        if (domains){
-            for (var d in domains){
+    has_domain = function (domain, domains) {
+        var d;
+        if (domains) {
+            for (d in domains) {
                 var checker = domains[d];
-                if (domain == checker.host){
+                if (domain === checker.host) {
                     return true;
-                }else if (checker.is_wildcard){
+                } else if (checker.is_wildcard) {
                     var start = domain.length - checker.host.length;
-                    if (domain.substr(start-1) == ('.'+checker.host)){
+                    if (domain.substr(start - 1) === ('.' + checker.host)) {
                         return true;
                     }
                 }
             }
         }
         return false;
-    }
+    },
 
     /**
      * prepare domain list
@@ -68,24 +71,24 @@ var Adfly = function(id, options){
      * @param domains
      * @return object
      */
-    var prepare_domains = function (domains){
-        var out, list;
-        if (domains){
+    prepare_domains = function (domains) {
+        var out, list, i=0;
+        if (domains) {
             out = {}
-            if (typeof(domains)=='string'){
+            if ('string' === typeof(domains)) {
                 list = [domains];
-            }else{
+            } else {
                 list = domains;
             }
             var l = list.length;
-            for (var i=0; i < l; i++){
+            for (i; i < l; i++) {
                 var domain = list[i];
-                if (domain.substr(0,1)=='*'){
+                if ('*' === domain.substr(0,1)) {
                     out[i] = {
                         host: domain.substr(2),
                         is_wildcard: true
                     }
-                }else{
+                } else {
                     out[i] = {
                         host: domain,
                         is_wildcard: false
@@ -94,7 +97,7 @@ var Adfly = function(id, options){
             }
         }
         return out;
-    }
+    },
 
     /**
      * parse options
@@ -102,8 +105,8 @@ var Adfly = function(id, options){
      * @param options object
      * @return object
      */
-    var parseOptions = function(options){
-        options = (options && Object == options.constructor) ? Object.create(options) : {};
+    parseOptions = function (options) {
+        options = (options && Object === options.constructor) ? Object.create(options) : {};
         if (options.type != 'int' && options.type != 'banner') {
             options.type = 'int';
         }
@@ -111,7 +114,7 @@ var Adfly = function(id, options){
         options.domains = prepare_domains(options.domains);
         options.exclude = prepare_domains(options.exclude);
         return options;
-    }
+    },
 
     /**
      * initialize script
@@ -119,20 +122,23 @@ var Adfly = function(id, options){
      * @param id adfly user id
      * @param options
      */
-    var init = function (id , options){
-        if (undefined === id){
+    init = function (id , options) {
+        if (undefined === id) {
             throw 'Adfly id not set';
         }
         self.id = id;
         self.options = options;
-    }
+    };
+    
+    
 
+    console.log(this);return;
     /**
      * replace links
      *
      * @parent parent element (optional)
      */
-    self.replace = function(parent){
+    self.replace = function (parent) {
         var options = parseOptions(self.options);
         parent = (undefined !== parent) ? parent : options.parent;
         var url;
@@ -141,26 +147,26 @@ var Adfly = function(id, options){
         var links = parent.getElementsByTagName('a');
         var num_of_links = links.length;
         var counter = 0;
-        for (var i=0; i < num_of_links; i++){
+        for (var i=0; i < num_of_links; i++) {
             var link = links[i];
             var href = (undefined === link.adflyOriginalHref) ? link.href : link.adflyOriginalHref;
             var hostname = (undefined === link.adflyOriginalHostname) ? link.hostname : link.adflyOriginalHostname;
             if ( href
                 && ( location != href.substr(0,l) )
                 && ( hostname != 'adf.ly' )
-                ){
+                ) {
                 var replace = true;
-                if (typeof(options.domains) == "object") {
+                if (typeof(options.domains) === "object") {
                     if (!has_domain(hostname, options.domains)) {
                         replace = false;
                     }
-                }else if (typeof(options.exclude) == "object") {
+                } else if (typeof(options.exclude) === "object") {
                     if ( has_domain(hostname, options.exclude) ) {
                         replace = false;
                     }
                 }
 
-                if (replace){
+                if (replace) {
                     link.adflyOriginalHref = href;
                     link.adflyOriginalHostname = hostname;
                     if (options.type == 'int') {
@@ -175,10 +181,11 @@ var Adfly = function(id, options){
         }
         return counter;
     }
-    if (this === window){
+    
+    if (this === window) {
         init(id, options);
         self.replace();
-    }else{
+    } else {
         init(id, options);
     }
 }
