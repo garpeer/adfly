@@ -159,7 +159,7 @@ var Adfly = function (id, options) {
             link = links[i];
             href = (undefined === link.adflyOriginalHref) ? link.href : link.adflyOriginalHref;
             hostname = (undefined === link.adflyOriginalHostname) ? link.hostname : link.adflyOriginalHostname;
-            if (href && ( location !== href.substr(0, location.length)) && (hostname !== 'adf.ly')) {
+            if (href && (location !== href.substr(0, location.length)) && (hostname !== 'adf.ly')) {
                 replace = true;
                 if (typeof (options.domains) === "object") {
                     if (!has_domain(hostname, options.domains)) {
