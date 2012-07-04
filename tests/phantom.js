@@ -55,7 +55,7 @@ function unescapeHtml(str) {
 }
 
 var generateJUnitXML = function(result) {
-	console.log('<?xml version="1.0"?>');
+	console.log('<?xml version="1.0" encoding="UTF-8"?>');
 	console.log('<!--\n ' + result.testresult + ' \n-->');
 	
 	var summaryArr = result.testresult.split("\n",3);
