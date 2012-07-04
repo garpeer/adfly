@@ -28,7 +28,8 @@
                 'https://www.testsite.com',
                 'http://www.testsite.com/path/to/adf.ly',
                 'http://www.google.com?q=www.testsite.com',
-                '#www.testsite.com',
+                'http://www.testsite.com?q=www.google.com',
+                '#www.google.com',
                 ''
                 ],
                 parent = createLinks(links),
@@ -62,36 +63,36 @@
                 equal( (testlinks[4]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
             });
             
-            test(links[4], function() {
-                equal( (testlinks[4]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
-            });
-            
             test(links[5], function() {
-                equal( (testlinks[5]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+                equal( (testlinks[5]).href, 'http://testsite.com/');
             });
             
             test(links[6], function() {
-                equal( (testlinks[6]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+                equal( (testlinks[6]).href, 'http://www.testsite.com/');
             });
             
             test(links[7], function() {
-                equal( (testlinks[7]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+                equal( (testlinks[7]).href, 'http://link.testsite.com/');
             });
             
             test(links[8], function() {
-                equal( (testlinks[8]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+                equal( (testlinks[8]).href, 'https://www.testsite.com/');
             });
             
             test(links[9], function() {
-                equal( (testlinks[9]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+                equal( (testlinks[9]).href, 'http://www.testsite.com/path/to/adf.ly');
             });
             
             test(links[10], function() {
-                equal( (testlinks[10]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+                equal( (testlinks[10]).href, 'http://adf.ly/' + id + '/http://www.google.com/?q=www.testsite.com');
             });
             
             test(links[11], function() {
-                equal( (testlinks[11]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+                equal( (testlinks[11]).href, 'http://www.testsite.com/?q=www.google.com');
+            });
+            
+            test(links[12], function() {
+                equal( (testlinks[12]).href, window.location.href+'#www.google.com');
             });
             
             
