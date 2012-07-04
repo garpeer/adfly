@@ -39,8 +39,13 @@
                 href,
                 id='test_id';
             
-            Adfly(id, {parent: parent, exclude: '*.testsite.com'});
             module("Simple");
+            
+            test('require id', function() {
+                raises( Adfly, 'Adfly id not set');
+            });
+            
+            Adfly(id, {parent: parent, exclude: '*.testsite.com'});
             
             
             test(links[0], function() {
@@ -98,36 +103,7 @@
             test('empty', function() {
                 equal( (testlinks[13]).href, window.location.href);
             });
-            
-            
                 
-                
-            /*for (i; i < testlinks.length; i += 1) {
-                link = testlinks[i];
-                href = links[i];
-                test(link.href, function(href) {
-                    equal( link.href, 'http://adf.ly/' + id + '/' + href);
-                });
-            }*/
-            /*
-      module("Module A");
-
-      test("first test within module", function() {
-        ok( true, "all pass" );
-      });
-
-      test("second test within module", function() {
-        ok( true, "all pass" );
-      });
-
-      module("Module B");
-
-      test("some other test", function() {
-        expect(2);
-        equal( true, false, "failing test" );
-        equal( true, true, "passing test" );
-      });
-             */
         </script>
 
     </head>
