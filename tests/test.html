@@ -15,18 +15,95 @@
                     doc.appendChild(elem);
                 }
                 return doc;
-            }
-
-            createLinks([
+            }            
+            var links = [
                 'http://www.google.com',
-                'http://www.google.com#hash'
-            ]);
-
-            test("a basic test example", function() {
-                ok( true, "this test is fine" );
-                var value = "hellos";
-                equal( value, "hello", "We expect value to be hello" );
+                'http://www.google.com#hash',
+                'http://www.google.com#www.testsite.com',
+                'http://adf.ly/www.testsite.com',
+                'http://www.google.com/path/to/www.testsite.com/#www.testsite.com',
+                'http://testsite.com',
+                'http://www.testsite.com',
+                'http://link.testsite.com',
+                'https://www.testsite.com',
+                'http://www.testsite.com/path/to/adf.ly',
+                'http://www.google.com?q=www.testsite.com',
+                '#www.testsite.com',
+                ''
+                ],
+                parent = createLinks(links),
+                testlinks = parent.getElementsByTagName('a'),
+                link,
+                i=0,
+                href,
+                id='test_id';
+            
+            Adfly(id, {parent: parent, exclude: '*.testsite.com'});
+            module("Simple");
+            
+            
+            test(links[0], function() {
+                equal( (testlinks[0]).href, 'http://adf.ly/' + id + '/http://www.google.com/');
             });
+            
+            test(links[1], function() {
+                equal( (testlinks[1]).href, 'http://adf.ly/' + id + '/http://www.google.com/#hash');
+            });
+            
+            test(links[2], function() {
+                equal( (testlinks[2]).href, 'http://adf.ly/' + id + '/http://www.google.com/#www.testsite.com');
+            });
+            
+            test(links[3], function() {
+                equal( (testlinks[3]).href, 'http://adf.ly/www.testsite.com');
+            });
+            
+            test(links[4], function() {
+                equal( (testlinks[4]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+            });
+            
+            test(links[4], function() {
+                equal( (testlinks[4]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+            });
+            
+            test(links[5], function() {
+                equal( (testlinks[5]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+            });
+            
+            test(links[6], function() {
+                equal( (testlinks[6]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+            });
+            
+            test(links[7], function() {
+                equal( (testlinks[7]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+            });
+            
+            test(links[8], function() {
+                equal( (testlinks[8]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+            });
+            
+            test(links[9], function() {
+                equal( (testlinks[9]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+            });
+            
+            test(links[10], function() {
+                equal( (testlinks[10]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+            });
+            
+            test(links[11], function() {
+                equal( (testlinks[11]).href, 'http://adf.ly/' + id + '/http://www.google.com/path/to/www.testsite.com/#www.testsite.com');
+            });
+            
+            
+                
+                
+            /*for (i; i < testlinks.length; i += 1) {
+                link = testlinks[i];
+                href = links[i];
+                test(link.href, function(href) {
+                    equal( link.href, 'http://adf.ly/' + id + '/' + href);
+                });
+            }*/
             /*
       module("Module A");
 
