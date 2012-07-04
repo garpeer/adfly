@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>Adf.ly script</title>
+    <script type="text/javascript" src="adfly.js?v=<?php echo rand(1, 9999) ?>" ></script>
   </head>
   <body>
       <p>Wildcard domains: * can be used in the exclude_domains or domains ( *.example.com matches www.example.com, example.com, foo.bar.baz.example.com)
@@ -27,17 +28,17 @@
           <li><a href="http://test.test.com">test.test</a></li>
       </ul>
       
-      <script type="text/javascript" src="adfly.js?v=<?php echo rand(1, 9999) ?>" ></script>
       <script type="text/javascript">
           Adfly('Blabbla', {
             type : 'int',
             exclude : ['www.testsite.com','*.example.com','test.test.com']
           });
-          Adfly('other', {
+          var ad = new Adfly('other', {
             domains : ['*.example.com'],
             exclude: 'test.example.com',
             type : 'banner'
           });
+          console.dir(ad);
       </script>
   </body>
 </html>
