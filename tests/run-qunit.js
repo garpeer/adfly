@@ -121,6 +121,7 @@ var onErrorText = function(msg) {
 if (phantom.args.length === 0 || phantom.args.length > 2) {
     console.log('Usage: run-qunit.js URL <TYPE>');
 	console.log('TYPE: either text or junit-xml');
+        console.log(phantom.args);
     phantom.exit();
 }
 
