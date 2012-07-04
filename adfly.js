@@ -31,15 +31,9 @@
  *   @todo allow single replace (options.parent is <a>)
  */
 var Adfly = function (id, options) {
-    "use strict";
-    
-    console.log(this);
-    if (this == window) {
-        self = this.Adfly;
-    } else {
-        self = this;
-    }
+    "use strict";    
     var self,
+    is_instance,
     /**
      * check whether domain is on the domains list
      *
@@ -130,9 +124,14 @@ var Adfly = function (id, options) {
         self.options = options;
     };
     
+    if (undefined === this || window === this) {
+        self = window.Adfly;
+        is_instance = false;
+    } else {
+        self = this;
+        is_instance = true;
+    }
     
-
-    console.log(this);return;
     /**
      * replace links
      *
@@ -182,10 +181,10 @@ var Adfly = function (id, options) {
         return counter;
     }
     
-    if (this === window) {
+    if (is_instance) {
         init(id, options);
-        self.replace();
     } else {
         init(id, options);
+        self.replace();
     }
 }

@@ -33,19 +33,12 @@
             type : 'int',
             exclude : ['www.testsite.com','*.example.com','test.test.com']
           });
-          function test(){
-              Adfly('Blabbla', {
-                    type : 'int',
-                    exclude : ['www.testsite.com','*.example.com','test.test.com']
-                });
-          }
-          test();
           var ad = new Adfly('other', {
             domains : ['*.example.com'],
             exclude: 'test.example.com',
             type : 'banner'
           });
-          //ad.replace();*/
+          ad.replace();
       </script>
   </body>
 </html>
