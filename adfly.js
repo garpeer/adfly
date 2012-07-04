@@ -11,73 +11,86 @@
  * options.domains domains to include
  * options.exclude domains to exclude
  * 
- * domains & exclude accepts * wildcard
+ * domains & exclude accepts * wildcard for subdomains (*.example.com)
  */
 var Adfly = function(id, options){
-    var self;
+    var self
     
     if (this === window){
         self = this.Adfly;
     }else{
         self = this;
-    } 
-    
+    }
     
     var has_domain = function(domain, domains){
-        for (var d in domains){
-            var checker = domains[d];
-            if (domain == checker.host){
-                return true;
-            }else if (checker.is_wildcard){
-                var start = domain.length - checker.host.length;
-                if (domain.substr(start-1) == ('.'+checker.host)){
+        if (domains){
+            for (var d in domains){
+                var checker = domains[d];
+                if (domain == checker.host){
                     return true;
+                }else if (checker.is_wildcard){
+                    var start = domain.length - checker.host.length;
+                    if (domain.substr(start-1) == ('.'+checker.host)){
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
+    
     var prepare_domain = function (domains){
+        var out, list;
         if (domains){
+            out = {}
             if (typeof(domains)=='string'){
-                domains = [domains];
+                list = [domains];
+            }else{
+                list = domains;
             }
-            var l = domains.length;
+            var l = list.length;
             for (var i=0; i < l; i++){
-                var domain = domains[i];
+                var domain = list[i];
                 if (domain.substr(0,1)=='*'){
-                    domains[i] = {
+                    out[i] = {
                         host: domain.substr(2),
                         is_wildcard: true
                     }
                 }else{
-                    domains[i] = {
+                    out[i] = {
                         host: domain,
                         is_wildcard: false
                     }
                 }
             }
         }
-        return domains;
+        return out;
+    }
+    
+    
+    var parseOptions = function(options){
+        options = (options && Object == options.constructor) ? Object.create(options) : {};
+        if (options.type != 'int' && options.type != 'banner') {
+            options.type = 'int';
+        }        
+        options.parent = (undefined !== options.parent) ? options.parent : document;
+        options.domains = prepare_domain(options.domains);
+        options.exclude = prepare_domain(options.exclude);
+        return options;
     }
     
     var init = function (id , options){
         if (undefined === id){
             throw 'Adfly id not set';
-        }  
-        self.id = id;
-        self.options = (options && Object == options.constructor) ? options : {};        
-        if (self.options.type != 'int' && self.options.type != 'banner') {
-            self.options.type = 'int';
         }
-        self.options.exclude = prepare_domain(self.options.exclude);
-        self.options.domains = prepare_domain(self.options.domains);
-        self.options.parent = (undefined !== self.options.parent) ? self.options.parent : document;
+        self.id = id;
+        self.options = options;
     }
     
     
     self.replace = function(parent){
-        parent = (undefined !== parent) ? parent : self.options.parent;
+        var options = parseOptions(self.options);
+        parent = (undefined !== parent) ? parent : options.parent;
         var url;
         var location = window.location.href;
         var l = location.length;
@@ -85,9 +98,8 @@ var Adfly = function(id, options){
         var num_of_links = links.length;
         for (var i=0; i < num_of_links; i++){
             var link = links[i];
-            if (!link.has_adfly){
-                var href = link.href;
-                var hostname = link.hostname;
+                var href = (undefined === link.adflyOriginalHref) ? link.href : link.adflyOriginalHref;
+                var hostname = (undefined === link.adflyOriginalHostname) ? link.hostname : link.adflyOriginalHostname;
                 if ( href
                     && ( location != href.substr(0,l) )
                     && ( hostname != 'adf.ly' )
@@ -104,21 +116,22 @@ var Adfly = function(id, options){
                     }
 
                     if (replace){
+                        link.adflyOriginalHref = href;
+                        link.adflyOriginalHostname = hostname;
                         if (options.type == 'int') {
                             url = "http://adf.ly/" + id + "/"+href;
                         } else {
                             url = "http://adf.ly/" + id + "/banner/"+href;
                         }
                         link.href = url;
-                        link.has_adfly = true;
                     }
                 }
-            }
+            
         }
     }
     if (this === window){
         init(id, options);
-        self.replace(self.options.parent);
+        self.replace();
     }else{
         init(id, options);
     }
