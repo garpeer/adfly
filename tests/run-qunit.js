@@ -149,6 +149,7 @@ page.open(phantom.args[0], function(status){
 	firstCall = false;
     if (status !== "success") {
         console.log("Unable to access network");
+        console.log(phantom.args);
         phantom.exit();
     } else {
         waitFor(function(){
