@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen" />
+        <script type="text/javascript" src="qunit/qunit.js"></script>
+        <script type="text/javascript" src="../adfly.js"></script>
+        <script>
+            function createLinks(links){
+                var doc = document.createElement('p');
+                for (var i = 0; i < links.length ; i++){
+                    elem = document.createElement('a');
+                    elem.href = links[i];
+                    elem.appendChild(document.createTextNode(links[i]));
+                    doc.appendChild(elem);
+                }
+                return doc;
+            }            
+            var links = [
+                'http://www.example.com',
+                'http://www.example.com#hash',
+                'http://www.example.com#www.testsite.com',
+                'http://adf.ly/www.testsite.com',
+                'http://www.example.com/path/to/www.testsite.com/#www.testsite.com',
+                'http://testsite.com',
+                'http://www.testsite.com',
+                'http://link.testsite.com',
+                'https://www.testsite.com',
+                'http://www.testsite.com/path/to/adf.ly',
+                'http://www.example.com?q=www.testsite.com',
+                'http://www.testsite.com?q=www.example.com',
+                '#www.example.com',
+                ''
+                ],
+                parent = createLinks(links),
+                testlinks = parent.getElementsByTagName('a'),
+                link,
+                i=0,
+                href,
+                id='test_id';
+            
+            module("Instance");
+            
+            test('require id', function() {
+                raises( Adfly, 'Adfly id not set');
+            });
+            
+            Adfly(id, {parent: parent, exclude: '*.testsite.com'});
+            
+            
+            test(links[0], function() {
+                equal( (testlinks[0]).href, 'http://adf.ly/' + id + '/http://www.example.com/');
+            });
+            
+            test(links[1], function() {
+                equal( (testlinks[1]).href, 'http://adf.ly/' + id + '/http://www.example.com/#hash');
+            });
+            
+            test(links[2], function() {
+                equal( (testlinks[2]).href, 'http://adf.ly/' + id + '/http://www.example.com/#www.testsite.com');
+            });
+            
+            test(links[3], function() {
+                equal( (testlinks[3]).href, 'http://adf.ly/www.testsite.com');
+            });
+            
+            test(links[4], function() {
+                equal( (testlinks[4]).href, 'http://adf.ly/' + id + '/http://www.example.com/path/to/www.testsite.com/#www.testsite.com');
+            });
+            
+            test(links[5], function() {
+                equal( (testlinks[5]).href, 'http://testsite.com/');
+            });
+            
+            test(links[6], function() {
+                equal( (testlinks[6]).href, 'http://www.testsite.com/');
+            });
+            
+            test(links[7], function() {
+                equal( (testlinks[7]).href, 'http://link.testsite.com/');
+            });
+            
+            test(links[8], function() {
+                equal( (testlinks[8]).href, 'https://www.testsite.com/');
+            });
+            
+            test(links[9], function() {
+                equal( (testlinks[9]).href, 'http://www.testsite.com/path/to/adf.ly');
+            });
+            
+            test(links[10], function() {
+                equal( (testlinks[10]).href, 'http://adf.ly/' + id + '/http://www.example.com/?q=www.testsite.com');
+            });
+            
+            test(links[11], function() {
+                equal( (testlinks[11]).href, 'http://www.testsite.com/?q=www.example.com');
+            });
+            
+            test(links[12], function() {
+                equal( (testlinks[12]).href, window.location.href+'#www.example.com');
+            });
+            
+            test('empty', function() {
+                equal( (testlinks[13]).href, window.location.href);
+            });
+                
+        </script>
+
+    </head>
+    <body>
+        <h1 id="qunit-header">QUnit example</h1>
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture">test markup, will be hidden</div>
+    </body>
+</html>
