@@ -77,12 +77,48 @@
         }
         small{
             color: #222;
+        }        
+        .download{
+            float:right;
+            color: #224c06;
+            background-color: #5bcc10;
+            padding: 5px 10px;
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border: 1px solid #3f8c0b;
+            box-shadow: 1px 1px 10px #000;
+            -moz-box-shadow: 1px 1px 10px #000;
+            -webkit-box-shadow: 1px 1px 10px #000;
+            text-shadow: 1px 1px 1px #72ff14;
+            -moz-text-shadow: 1px 1px 1px #72ff14;
+            -webkit-text-shadow: 1px 1px 1px #72ff14;
+            
+        }
+        .download a{
+            color: #eee;
+            text-shadow: 1px 1px 1px #000;
+            -moz-text-shadow: 1px 1px 1px #000;
+            -webkit-text-shadow: 1px 1px 1px #000;
+            margin: 0 5px;
+        }
+        .download a:hover,
+        .download a:focus{
+            text-decoration: underline;
+        }
+        .download-minified{
+            font-size: 0.9em;
         }
         
     </style>
   </head>
   <body>
-        <h1>Replacement script for adf.ly link changer</h1>
+        <h1>Adf.ly link changer script</h1>
+        <p class="download">
+            Download:
+            <a href="adfly.js" class="download-standard">adfly.js</a>
+            <a href="adfly.min.js" class="download-minified">adfly.min.js</a>
+        </p>
         <h2>Usage</h2>
         
         <p>Include js:</p>
@@ -136,6 +172,8 @@ adfly.options.type = 'banner';
 adfly.options.include = '*example.other';
 adfly.replace();
         </code>
+        <h2>License</h2>
+        <p>GPL3</p>
       <p id="footer">&#169; Garpeer</p>
       
       <script type="text/javascript">
