@@ -21,10 +21,10 @@ Example
 Options
 =======
 
- * include: domains to include [str|array] (defaults to '*')
+ * include: domains to include [str|array] defaults to '*'
  * exclude: domains to exclude [str|array]
  * parent: element in which to change links [DOM Element] (defaults to document)
- * type: ad type [int|banner] (defaults to int)
+ * type: ad type [int|banner] defaults to int
 
 Include & exclude accepts '*' as a wildcard ( *example.com matches www.example.com, example.com, foo.bar.baz.example.com)
 
