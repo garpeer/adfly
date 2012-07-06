@@ -5,40 +5,41 @@
     <script type="text/javascript" src="adfly.js" ></script>
     <style type="text/css">
         body{
-            margin: 0;
-            padding: 30px;
-            background-color: #333;
-            font-family: sans-serif;
-        }
-        div{
-            background-color: #ccc;
-            border: 1px solid #eee;
-            padding: 20px;
             margin: 0 auto;
+            padding: 30px;
+            background-color: #666;
+            font-family: sans-serif;
             max-width: 700px;
-            min-width: 400px;
-            word-break: break-all;
-            border-radius: 5px;
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;
-            box-shadow: 1px 1px 10px #000;
-            -moz-box-shadow: 1px 1px 10px #000;
-            -webkit-box-shadow: 1px 1px 10px #000;
+            color: #111;
         }
         h1{
             text-align: center;
+            color: #333;
             font-size: 1.6em;
-            color: #666;
-            text-shadow: 1px 1px 1px #fff;
-            -moz-text-shadow: 1px 1px 1px #fff;
-            -webkit-text-shadow: 1px 1px 1px #fff;
+            text-shadow: 1px 1px 1px #888;
+            -moz-text-shadow: 1px 1px 1px #888;
+            -webkit-text-shadow: 1px 1px 1px #888;
         }
         h2{
             font-size: 1.2em;
             color: #333;
+            text-shadow: 1px 1px 1px #888;
+            -moz-text-shadow: 1px 1px 1px #888;
+            -webkit-text-shadow: 1px 1px 1px #888;
+            margin: 30px 0 10px 0;
+        }
+        p{
+            margin: 10px 0;
         }
         a{
             text-decoration: none;
+            color: #999;
+            text-shadow: 1px 1px 1px #555;
+            -moz-text-shadow: 1px 1px 1px #555;
+            -webkit-text-shadow: 1px 1px 1px #555;
+        }
+        a[href*="http://adf.ly"]{            
+            color: #ddd;
         }
         a[href*="http://adf.ly"]:after{
             content: '< adfly';
@@ -49,9 +50,13 @@
             display: block;
             white-space: pre;
             padding: 5px;
-            border: 1px solid #bbb;
-            background-color: #eee;
+            border: 1px solid #222;
+            background-color: #333;
+            color: #eee;
             font-family: monospace;
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
         }
         #replace{
             font-size: 0.9em;
@@ -61,16 +66,22 @@
         #footer{
             color: #222;
             text-align: center;
-            margin-bottom: 50px;
-            text-shadow: 1px 1px 1px #444;
-            -moz-text-shadow: 1px 1px 1px #444;
-            -webkit-text-shadow: 1px 1px 1px #444;
+            margin: 30px 0;
+            text-shadow: 1px 1px 1px #888;
+            -moz-text-shadow: 1px 1px 1px #888;
+            -webkit-text-shadow: 1px 1px 1px #888;
+        }
+        dl{
+            font-size: 0.9em;
+            padding-left: 20px;
+        }
+        small{
+            color: #222;
         }
         
     </style>
   </head>
   <body>
-    <div>
         <h1>Replacement script for adf.ly link changer</h1>
         <h2>Usage</h2>
         
@@ -97,15 +108,13 @@
             <li><a href="https://www.testsite.com">https://www.testsite.com</a></li>
             <li><a href="http://www.testsite.com/path/to/adf.ly">http://www.testsite.com/path/to/adf.ly</a></li>
             <li><a href="http://www.google.com?q=www.testsite.com">http://www.google.com?q=www.testsite.com</a></li>
+            <li><a href="http://test.example.com">http://test.example.com</a></li>
+            <li><a href="http://example.com">http://example.com</a></li>
+            <li><a href="http://foo.test.com">http://foo.test.com</a></li>      
+            <li><a href="http://test.test.com">http://test.test.com</a></li>
             <li><a href="#www.testsite.com">#testsite.com</a></li>
             <li><a href="">empty</a></li>   
             <li><a>null</a></li>
-
-            <li><a href="http://test.example.com">test.example</a></li>
-            <li><a href="http://example.com">example</a></li>
-
-            <li><a href="http://foo.test.com">foo.test</a></li>      
-            <li><a href="http://test.test.com">test.test</a></li>
         </ul>
         <h2>Options</h2>
         <dl>
@@ -120,14 +129,13 @@
         </dl>
         <p><small>Include & exclude accepts '*' as a wildcard ( *example.com matches www.example.com, example.com, foo.bar.baz.example.com)</small></p>
             
-        <h3>Alternative usage</h3>
+        <h2>Alternative usage</h2>
         <code>var adfly = new Adfly('your_adfly_id', { include : '*example.com' });
 adfly.replace();
 adfly.options.type = 'banner';
 adfly.options.include = '*example.other';
 adfly.replace();
         </code>
-      </div>
       <p id="footer">&#169; Garpeer</p>
       
       <script type="text/javascript">
