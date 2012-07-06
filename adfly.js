@@ -8,7 +8,7 @@
  *
  * Possible options values:
  * options.type [int|banner] ad type (defaults to int)
- * options.domains domains to include (defaults to all links)
+ * options.include domains to include (defaults to '*': all links)
  * options.exclude domains to exclude
  * options.parent element in which to change links, defaults to document (DOM Element)
  *
@@ -34,6 +34,15 @@ var Adfly = function (id, options) {
     "use strict";
     var self,
         is_instance,
+        sort_by_length = function(a, b){
+            if (a.length > b.length){
+                return -1;
+            }
+            if (a.length < b.length){
+                return 1;
+            }
+            return 0;
+        },
         /**
         * check whether domain is on the domains list
         *
@@ -42,20 +51,15 @@ var Adfly = function (id, options) {
         * @return boolean
         */
         has_domain = function (domain, domains) {
-            var d, checker, start;
+            var i=0,
+                l=domains.length,
+                checker,
+                start;
             if (domains) {
-                for (d in domains) {
-                    if (domains.hasOwnProperty(d)) {
-                        checker = domains[d];
-                        if (domain === checker.host) {
-                            return true;
-                        }
-                        if (checker.is_wildcard) {
-                            start = domain.length - checker.host.length;
-                            if (domain.substr(start - 1) === ('.' + checker.host)) {
-                                return true;
-                            }
-                        }
+                for (i; i<l; i += 1) {
+                    checker = domains[i];
+                    if (checker.regexp.test(domain)){
+                        return checker.length;
                     }
                 }
             }
@@ -73,9 +77,10 @@ var Adfly = function (id, options) {
                 list,
                 i = 0,
                 l,
+                regexp,
                 domain;
             if (domains) {
-                out = {};
+                out = [];
                 if ('string' === typeof (domains)) {
                     list = [domains];
                 } else {
@@ -84,17 +89,11 @@ var Adfly = function (id, options) {
                 l = list.length;
                 for (i; i < l; i += 1) {
                     domain = list[i];
-                    if ('*' === domain.substr(0, 1)) {
-                        out[i] = {
-                            host: domain.substr(2),
-                            is_wildcard: true
+                    regexp = new RegExp(domain.replace(/^[\[\]\.\-\\\^\$\(\)\<\>\{\}\|\+\?]/g, '\\$&').replace('*', '[.]*'));
+                    out[i] = {
+                            regexp: regexp,
+                            length: domain.length
                         };
-                    } else {
-                        out[i] = {
-                            host: domain,
-                            is_wildcard: false
-                        };
-                    }
                 }
             }
             return out;
@@ -112,8 +111,8 @@ var Adfly = function (id, options) {
                 options.type = 'int';
             }
             options.parent = (undefined !== options.parent) ? options.parent : document;
-            options.domains = prepare_domains(options.domains);
-            options.exclude = prepare_domains(options.exclude);
+            options.include = (undefined !== options.include) ? prepare_domains(options.include).sort(sort_by_length) : '*';
+            options.exclude = prepare_domains(options.exclude).sort(sort_by_length).reverse();
             return options;
         },
 
@@ -154,24 +153,29 @@ var Adfly = function (id, options) {
             i = 0,
             href,
             hostname,
-            replace;
+            include,
+            exclude;
         for (i; i < links.length; i += 1) {
             link = links[i];
             href = (undefined === link.adflyOriginalHref) ? link.href : link.adflyOriginalHref;
             hostname = (undefined === link.adflyOriginalHostname) ? link.hostname : link.adflyOriginalHostname;
             if (href && (location !== href.substr(0, location.length)) && (hostname !== 'adf.ly')) {
-                replace = true;
-                if (typeof (options.domains) === "object") {
-                    if (!has_domain(hostname, options.domains)) {
-                        replace = false;
-                    }
-                } else if (typeof (options.exclude) === "object") {
-                    if (has_domain(hostname, options.exclude)) {
-                        replace = false;
+                include = false;
+                exclude = false;
+                if (typeof (options.include) === "object") {
+                    include = has_domain(hostname, options.include);
+                } 
+                
+                if (include){
+                    if (typeof (options.exclude) === "object") {
+                        exclude = has_domain(hostname, options.exclude);
+                        if (exclude && (exclude < include)){
+                            exclude = false;
+                        }
                     }
                 }
 
-                if (replace) {
+                if (include && !exclude) {
                     link.adflyOriginalHref = href;
                     link.adflyOriginalHostname = hostname;
                     if (options.type === 'int') {

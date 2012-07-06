@@ -25,7 +25,7 @@
                 'http://testsite.com',
                 'http://www.testsite.com',
                 'http://link.testsite.com',
-                'https://www.testsite.com',
+                'https://www.testsite.com#www.example.com',
                 'http://www.testsite.com/path/to/adf.ly',
                 'http://www.example.com?q=www.testsite.com',
                 'http://www.testsite.com?q=www.example.com',
@@ -45,7 +45,7 @@
                 raises( Adfly, 'Adfly id not set');
             });
             
-            Adfly(id, {parent: parent, exclude: '*.testsite.com'});
+            Adfly(id, {parent: parent, include: ['*', 'link.testsite.com', '*k.testsite.com'], exclude: '*testsite.com'});
             
             
             test(links[0], function() {
@@ -77,11 +77,11 @@
             });
             
             test(links[7], function() {
-                equal( (testlinks[7]).href, 'http://link.testsite.com/');
+                equal( (testlinks[7]).href, 'http://adf.ly/' + id + '/http://link.testsite.com/');
             });
             
             test(links[8], function() {
-                equal( (testlinks[8]).href, 'https://www.testsite.com/');
+                equal( (testlinks[8]).href, 'https://www.testsite.com/#www.example.com');
             });
             
             test(links[9], function() {
