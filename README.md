@@ -7,7 +7,7 @@ Include js:
 
 `<script type="text/javascript" src="adfly.js" ></script>`
 
-Init script (at the bottom of the page, preferably just before the </body>):
+Init script (at the bottom of the page, preferably just before the &lt;/body&gt;):
 
 `Adfly('your_adfly_id', {options});`
 
