@@ -47,11 +47,11 @@ var Adfly = function (id, options) {
     "use strict";
     var self,
         is_instance,
-        sort_by_length = function(a, b) {
-            if (a.length > b.length){
+        sort_by_length = function (a, b) {
+            if (a.length > b.length) {
                 return -1;
             }
-            if (a.length < b.length){
+            if (a.length < b.length) {
                 return 1;
             }
             return 0;
@@ -102,7 +102,7 @@ var Adfly = function (id, options) {
                 l = list.length;
                 for (i; i < l; i += 1) {
                     domain = list[i];
-                    regexp = new RegExp(domain.replace(/^[\[\]\.\-\\\^\$\(\)\<\>\{\}\|\+\?]/g, '\\$&').replace('*', '[.]*'));
+                    regexp = new RegExp(domain.replace(/^[\[\]\.\-\\\^\$\(\)\{\|\+\?<>]/g, '\\$&').replace('*', '[.]*'));
                     out[i] = {
                         regexp: regexp,
                         length: domain.length
@@ -180,10 +180,10 @@ var Adfly = function (id, options) {
                     include = has_domain(hostname, options.include);
                 }
 
-                if (include){
+                if (include) {
                     if (typeof (options.exclude) === "object") {
                         exclude = has_domain(hostname, options.exclude);
-                        if (exclude && (exclude < include)){
+                        if (exclude && (exclude < include)) {
                             exclude = false;
                         }
                     }
