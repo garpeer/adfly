@@ -13,10 +13,10 @@ Init script:
 Example
 =======
 
-`Adfly('your_adfly_id', {
-    exclude: ['www.testsite.com','*example.com','test.test.com'],
-    type : 'banner'
-});`
+    Adfly('your_adfly_id', {
+        exclude: ['www.testsite.com','*example.com','test.test.com'],
+        type : 'banner'
+    });
 
 Options
 =======
@@ -31,11 +31,11 @@ Include & exclude accepts '*' as a wildcard ( *example.com matches www.example.c
 Alternative usage
 =================
 
-`var adfly = new Adfly('your_adfly_id', { include : '*example.com' });
-adfly.replace();
-adfly.options.type = 'banner';
-adfly.options.include = '*example.other';
-adfly.replace();`
+    var adfly = new Adfly('your_adfly_id', { include : '*example.com' });
+    adfly.replace();
+    adfly.options.type = 'banner';
+    adfly.options.include = '*example.other';
+    adfly.replace();
 
 License
 =======
