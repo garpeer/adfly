@@ -1,44 +1,146 @@
+<!DOCTYPE>
 <html>
   <head>
     <title>Adf.ly script</title>
     <script type="text/javascript" src="adfly.js" ></script>
+    <style type="text/css">
+        body{
+            margin: 0;
+            padding: 30px;
+            background-color: #333;
+            font-family: sans-serif;
+        }
+        div{
+            background-color: #ccc;
+            border: 1px solid #eee;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 700px;
+            min-width: 400px;
+            word-break: break-all;
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            box-shadow: 1px 1px 10px #000;
+            -moz-box-shadow: 1px 1px 10px #000;
+            -webkit-box-shadow: 1px 1px 10px #000;
+        }
+        h1{
+            text-align: center;
+            font-size: 1.6em;
+            color: #666;
+            text-shadow: 1px 1px 1px #fff;
+            -moz-text-shadow: 1px 1px 1px #fff;
+            -webkit-text-shadow: 1px 1px 1px #fff;
+        }
+        h2{
+            font-size: 1.2em;
+            color: #333;
+        }
+        a{
+            text-decoration: none;
+        }
+        a[href*="http://adf.ly"]:after{
+            content: '< adfly';
+            color:#888;
+            margin-left: 10px;
+        }
+        code{
+            display: block;
+            white-space: pre;
+            padding: 5px;
+            border: 1px solid #bbb;
+            background-color: #eee;
+            font-family: monospace;
+        }
+        #replace{
+            font-size: 0.9em;
+            padding-left: 20px;
+            list-style: none;
+        }
+        #footer{
+            color: #222;
+            text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 1px 1px 1px #444;
+            -moz-text-shadow: 1px 1px 1px #444;
+            -webkit-text-shadow: 1px 1px 1px #444;
+        }
+        
+    </style>
   </head>
   <body>
-      <p>Wildcard domains: * can be used in the exclude_domains or domains ( *.example.com matches www.example.com, example.com, foo.bar.baz.example.com)
-      <ul id="replace">
-          <li><a href="http://www.google.com">google</a></li>
-          <li><a href="http://www.google.com#hash">google#hash</a></li>
-          <li><a href="http://www.google.com#www.testsite.com">google#www.testsite.com</a></li>
-          <li><a href="http://adf.ly/www.testsite.com">adf.ly/www.testsite.com</a></li>
-          <li><a href="http://www.google.com/path/to/www.testsite.com/#www.testsite.com">google/path/to/testsite.com/#www.testsite.com</a></li>
-          <li><a href="http://testsite.com">TS</a></li>
-          <li><a href="http://www.testsite.com">www.TS</a></li>
-          <li><a href="http://link.testsite.com">link.TS</a></li>
-          <li><a href="https://www.testsite.com">TSs</a></li>
-          <li><a href="http://www.testsite.com/path/to/adf.ly">TS/path/to/adf.ly</a></li>
-          <li><a href="http://www.google.com?q=www.testsite.com">google->tm</a></li>
-          <li><a href="#www.testsite.com">#TS</a></li>
-          <li><a href="">empty</a></li>   
-          <li><a>null</a></li>
+    <div>
+        <h1>Replacement script for adf.ly link changer</h1>
+        <h2>Usage</h2>
+        
+        <p>Include js:</p>
+        <code>&lt;script type="text/javascript" src="adfly.js" &gt;&lt;/script&gt;</code>
+        
+        <p>Init script:</p>
+        <code>Adfly('your_adfly_id', {options});</code>
+                
+        <h2>Example</h2>
+        <code>Adfly('your_adfly_id', {
+    exclude: ['www.testsite.com','*example.com','test.test.com'],
+    type : 'banner'
+});</code>
+        <ul id="replace">
+            <li><a href="http://www.google.com">http://www.google.com</a></li>
+            <li><a href="http://www.google.com#hash">http://www.google.com#hash</a></li>
+            <li><a href="http://www.google.com#www.testsite.com">http://www.google.com#www.testsite.com</a></li>
+            <li><a href="http://adf.ly/www.testsite.com">http://adf.ly/www.testsite.com</a></li>
+            <li><a href="http://www.google.com/path/to/www.testsite.com/#www.example.com">http://www.google.com/path/to/www.testsite.com/#www.example.com</a></li>
+            <li><a href="http://testsite.com">http://testsite.com</a></li>
+            <li><a href="http://www.testsite.com">http://www.testsite.com</a></li>
+            <li><a href="http://link.testsite.com">http://link.testsite.com</a></li>
+            <li><a href="https://www.testsite.com">https://www.testsite.com</a></li>
+            <li><a href="http://www.testsite.com/path/to/adf.ly">http://www.testsite.com/path/to/adf.ly</a></li>
+            <li><a href="http://www.google.com?q=www.testsite.com">http://www.google.com?q=www.testsite.com</a></li>
+            <li><a href="#www.testsite.com">#testsite.com</a></li>
+            <li><a href="">empty</a></li>   
+            <li><a>null</a></li>
 
-          <li><a href="http://test.example.com">test.example</a></li>
-          <li><a href="http://example.com">example</a></li>
+            <li><a href="http://test.example.com">test.example</a></li>
+            <li><a href="http://example.com">example</a></li>
 
-          <li><a href="http://foo.test.com">foo.test</a></li>      
-          <li><a href="http://test.test.com">test.test</a></li>
-      </ul>
+            <li><a href="http://foo.test.com">foo.test</a></li>      
+            <li><a href="http://test.test.com">test.test</a></li>
+        </ul>
+        <h2>Options</h2>
+        <dl>
+            <dt>include</dt>
+            <dd>domains to include [str|array] (defaults to '*')</dd>
+            <dt>exclude</dt>
+            <dd>domains to exclude [str|array]</dd>
+            <dt>parent</dt>
+            <dd>element in which to change links [DOM Element] (defaults to document)</dd>
+            <dt>type</dt>
+            <dd>ad type [int|banner] (defaults to int)</dd>            
+        </dl>
+        <p><small>Include & exclude accepts '*' as a wildcard ( *example.com matches www.example.com, example.com, foo.bar.baz.example.com)</small></p>
+            
+        <h3>Alternative usage</h3>
+        <code>var adfly = new Adfly('your_adfly_id', { include : '*example.com' });
+adfly.replace();
+adfly.options.type = 'banner';
+adfly.options.include = '*example.other';
+adfly.replace();
+        </code>
+      </div>
+      <p id="footer">&#169; Garpeer</p>
       
       <script type="text/javascript">
           Adfly('Blabbla', {
-            type : 'int',
-            exclude : ['www.testsite.com','*.example.com','test.test.com']
+            exclude : ['www.testsite.com','*example.com','test.test.com'],
+            type : 'banner'
           });
-          var ad = new Adfly('other', {
-            domains : ['*.example.com'],
+          /*var ad = new Adfly('other', {
+            include : ['*example.com'],
             exclude: 'test.example.com',
             type : 'banner'
           });
-          ad.replace();
+          ad.replace();*/
       </script>
   </body>
 </html>

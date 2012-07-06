@@ -12,23 +12,22 @@
  * options.exclude domains to exclude
  * options.parent element in which to change links, defaults to document (DOM Element)
  *
- * domains & exclude accepts * wildcard for subdomains & domains (*.example.com, *.com)
+ * include & exclude accepts '*' as a wildcard (*example.com, *.com)
  *
  * two modes of deployment:
  *  simple:
  *      Adfly('your_adfly_id', { type: ... });
  *
  *  instance:
- *      var adfly = new Adfly('your_adfly_id', { domain : '*.example.com' });
+ *      var adfly = new Adfly('your_adfly_id', { include : '*example.com' });
  *      adfly.replace();
  *      adfly.options.type = 'banner';
- *      adfly.options.domain = '*.example.other';
+ *      adfly.options.include = '*example.other';
  *      adfly.replace();
  *
- *   @todo convert domains list to array
- *   @todo check if exclude is subset of domain and vice versa
  *   @todo remove method
  *   @todo allow single replace (options.parent is <a>)
+ *   @todo add class to replaced links
  */
 var Adfly = function (id, options) {
     "use strict";
@@ -111,7 +110,7 @@ var Adfly = function (id, options) {
                 options.type = 'int';
             }
             options.parent = (undefined !== options.parent) ? options.parent : document;
-            options.include = (undefined !== options.include) ? prepare_domains(options.include).sort(sort_by_length) : '*';
+            options.include = (undefined !== options.include) ? prepare_domains(options.include).sort(sort_by_length) : prepare_domains('*');
             options.exclude = prepare_domains(options.exclude).sort(sort_by_length).reverse();
             return options;
         },
@@ -155,6 +154,7 @@ var Adfly = function (id, options) {
             hostname,
             include,
             exclude;
+            
         for (i; i < links.length; i += 1) {
             link = links[i];
             href = (undefined === link.adflyOriginalHref) ? link.href : link.adflyOriginalHref;
