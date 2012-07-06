@@ -1,7 +1,8 @@
-                           Adf.ly link changer script
+Adf.ly link changer script
+==========================
 
 Usage
-=====
+-----
 Include js:
 
 `<script type="text/javascript" src="adfly.js" ></script>`
@@ -11,7 +12,7 @@ Init script:
 `Adfly('your_adfly_id', {options});`
 
 Example
-=======
+-------
 
     Adfly('your_adfly_id', {
         exclude: ['www.testsite.com','*example.com','test.test.com'],
@@ -19,7 +20,7 @@ Example
     });
 
 Options
-=======
+-------
 
  * include: domains to include [str|array] defaults to '*'
  * exclude: domains to exclude [str|array]
@@ -29,7 +30,7 @@ Options
 Include & exclude accepts '*' as a wildcard ( *example.com matches www.example.com, example.com, foo.bar.baz.example.com)
 
 Alternative usage
-=================
+-----------------
 
     var adfly = new Adfly('your_adfly_id', { include : '*example.com' });
     adfly.replace();
@@ -38,7 +39,7 @@ Alternative usage
     adfly.replace();
 
 License
-=======
+-------
 
 GPL3
 
