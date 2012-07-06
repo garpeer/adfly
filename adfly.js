@@ -1,6 +1,6 @@
 /*!
  * adf.ly link changer
- * 
+ *
  * Copyright 2012 Gergely Aradszki [garpeer at gmail dot com]
  */
 /**
@@ -47,7 +47,7 @@ var Adfly = function (id, options) {
     "use strict";
     var self,
         is_instance,
-        sort_by_length = function(a, b){
+        sort_by_length = function(a, b) {
             if (a.length > b.length){
                 return -1;
             }
@@ -64,14 +64,14 @@ var Adfly = function (id, options) {
         * @return boolean
         */
         has_domain = function (domain, domains) {
-            var i=0,
-                l=domains.length,
+            var i = 0,
+                l = domains.length,
                 checker,
                 start;
             if (domains) {
-                for (i; i<l; i += 1) {
+                for (i; i < l; i += 1) {
                     checker = domains[i];
-                    if (checker.regexp.test(domain)){
+                    if (checker.regexp.test(domain)) {
                         return checker.length;
                     }
                 }
@@ -104,9 +104,9 @@ var Adfly = function (id, options) {
                     domain = list[i];
                     regexp = new RegExp(domain.replace(/^[\[\]\.\-\\\^\$\(\)\<\>\{\}\|\+\?]/g, '\\$&').replace('*', '[.]*'));
                     out[i] = {
-                            regexp: regexp,
-                            length: domain.length
-                        };
+                        regexp: regexp,
+                        length: domain.length
+                    };
                 }
             }
             return out;
@@ -168,7 +168,7 @@ var Adfly = function (id, options) {
             hostname,
             include,
             exclude;
-            
+
         for (i; i < links.length; i += 1) {
             link = links[i];
             href = (undefined === link.adflyOriginalHref) ? link.href : link.adflyOriginalHref;
@@ -178,8 +178,8 @@ var Adfly = function (id, options) {
                 exclude = false;
                 if (typeof (options.include) === "object") {
                     include = has_domain(hostname, options.include);
-                } 
-                
+                }
+
                 if (include){
                     if (typeof (options.exclude) === "object") {
                         exclude = has_domain(hostname, options.exclude);
